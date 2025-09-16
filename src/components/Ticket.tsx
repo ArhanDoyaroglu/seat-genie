@@ -42,7 +42,7 @@ export function Ticket({ data }: TicketProps) {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <Card className="relative overflow-hidden bg-gradient-card shadow-card">
+      <Card className="relative overflow-hidden bg-gradient-card shadow-card rounded-2xl border border-slate-200/60">
         {/* Limited Edition Ribbon */}
         <div className="absolute top-4 right-4 z-10">
           <div className="bg-gradient-primary text-white px-3 py-1 text-xs font-semibold transform rotate-12 shadow-lg rounded">
@@ -52,16 +52,31 @@ export function Ticket({ data }: TicketProps) {
 
         <div className="flex">
           {/* Left Side - Dark Section */}
-            <div className="w-1/3 bg-gradient-to-br from-slate-900 to-slate-800 p-8 flex flex-col items-center justify-center text-white">
+            <div className="w-1/3 bg-gradient-to-br from-slate-900 to-slate-800 p-10 md:p-12 flex flex-col items-center justify-center text-white relative">
             <img 
               src={anoLogo} 
               alt="Xantothemoon Logo" 
-              className="w-20 h-20 object-contain mb-4"
+              className="w-28 h-28 md:w-32 md:h-32 object-contain mb-4 drop-shadow-xl"
             />
+          </div>
+
+          {/* Perforation Divider */}
+          <div
+            className="hidden md:block absolute inset-y-6"
+            style={{ left: "33.333%" }}
+          >
+            <div className="h-full w-px bg-gradient-to-b from-transparent via-slate-300/70 to-transparent" />
           </div>
 
           {/* Right Side - White Section */}
           <div className="flex-1 p-8 relative">
+            {/* Watermark */}
+            <img
+              src={anoLogo}
+              alt=""
+              aria-hidden
+              className="pointer-events-none select-none hidden md:block absolute -right-8 -top-8 w-64 h-64 opacity-5"
+            />
             {/* Header */}
             <div className="mb-6">
                 <p className="text-sm text-muted-foreground uppercase tracking-wider mb-1">
@@ -115,7 +130,7 @@ export function Ticket({ data }: TicketProps) {
             </div>
 
             {/* Right Side Info */}
-            <div className="absolute top-16 right-8 text-right space-y-6">
+            <div className="absolute top-16 right-8 text-right space-y-6 z-10">
               {/* Ticket ID */}
               <div className="bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-sm text-center">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">

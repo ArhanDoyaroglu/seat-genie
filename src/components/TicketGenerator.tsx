@@ -111,7 +111,7 @@ export function TicketGenerator() {
           </div>
           <div className="text-center space-y-4">
             <p className="text-white text-lg font-medium">
-              See you on September 25
+              See you on September 25!
             </p>
             <Button
               onClick={handleDownload}
