@@ -44,8 +44,8 @@ export function Ticket({ data }: TicketProps) {
     <div className="w-full max-w-4xl mx-auto">
       <Card className="relative overflow-hidden bg-gradient-card shadow-card">
         {/* Limited Edition Ribbon */}
-        <div className="absolute top-0 right-0 z-10">
-          <div className="bg-gradient-primary text-white px-4 py-2 text-sm font-semibold transform rotate-45 translate-x-6 translate-y-4 shadow-lg">
+        <div className="absolute top-4 right-4 z-10">
+          <div className="bg-gradient-primary text-white px-3 py-1 text-xs font-semibold transform rotate-12 shadow-lg rounded">
             LIMITED EDITION
           </div>
         </div>
@@ -115,13 +115,13 @@ export function Ticket({ data }: TicketProps) {
             </div>
 
             {/* Right Side Info */}
-            <div className="absolute top-8 right-8 text-right space-y-6">
+            <div className="absolute top-16 right-8 text-right space-y-6">
               {/* Ticket ID */}
-              <div>
+              <div className="bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-sm">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                   TICKET ID
                 </p>
-                <p className="text-lg font-mono font-semibold text-card-foreground">
+                <p className="text-lg font-mono font-bold text-card-foreground">
                   {data.id}
                 </p>
               </div>
