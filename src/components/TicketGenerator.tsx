@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Upload, User } from "lucide-react";
 import { Ticket } from "./Ticket";
-import anoLogo from "@/assets/ano-logo.png";
+import anoLogo from "@/assets/anomaLogo.png";
+import html2canvas from "html2canvas";
 
 interface TicketData {
   id: string;
@@ -22,16 +23,17 @@ export function TicketGenerator() {
   const [profileImage, setProfileImage] = useState<string>();
   const [generatedTicket, setGeneratedTicket] = useState<TicketData | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const ticketRef = useRef<HTMLDivElement>(null);
 
   const generateRandomSeat = () => ({
-    gate: Math.floor(Math.random() * 50) + 1,
-    row: Math.floor(Math.random() * 100) + 1,
-    seat: Math.floor(Math.random() * 50) + 1,
+    gate: 25,
+    row: 9,
+    seat: 25,
   });
 
   const generateTicketId = () => {
     const timestamp = Date.now().toString().slice(-6);
-    return `ANO-${timestamp}`;
+    return `ANM-${timestamp}`;
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +60,7 @@ export function TicketGenerator() {
       id: generateTicketId(),
       name: name.trim(),
       profileImage,
-      date: "25 Eylül",
+      date: "September 25",
       gate: seat.gate,
       row: seat.row,
       seat: seat.seat,
@@ -75,19 +77,49 @@ export function TicketGenerator() {
     setProfileImage(undefined);
   };
 
+  const handleDownload = async () => {
+    if (!generatedTicket || !ticketRef.current) return;
+    
+    try {
+      // Capture the ticket element as canvas
+      const canvas = await html2canvas(ticketRef.current, {
+        backgroundColor: null,
+        scale: 2, // Higher resolution
+        useCORS: true,
+        allowTaint: true,
+        width: ticketRef.current.offsetWidth,
+        height: ticketRef.current.offsetHeight,
+      });
+
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `xantothemoon-ticket-${generatedTicket.id}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error generating ticket image:', error);
+      alert('Error generating ticket image. Please try again.');
+    }
+  };
+
   if (generatedTicket) {
     return (
-      <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
         <div className="w-full max-w-4xl space-y-8">
-          <Ticket data={generatedTicket} />
-          <div className="text-center">
+          <div ref={ticketRef}>
+            <Ticket data={generatedTicket} />
+          </div>
+          <div className="text-center space-y-4">
+            <p className="text-white text-lg font-medium">
+              See you on September 25
+            </p>
             <Button
-              onClick={handleNewTicket}
+              onClick={handleDownload}
               variant="ticket"
               size="lg"
               className="px-8"
             >
-              Yeni Bilet Oluştur
+              Download Ticket
             </Button>
           </div>
         </div>
@@ -96,24 +128,24 @@ export function TicketGenerator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         {/* Logo */}
         <div className="text-center space-y-6">
           <div className="flex justify-center">
             <img 
               src={anoLogo} 
-              alt="ANO Logo" 
+              alt="Xantothemoon Logo" 
               className="w-24 h-24 object-contain"
             />
           </div>
           
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-foreground">
-              BİLETİNİ AL
+              GET YOUR TICKET
             </h1>
             <p className="text-muted-foreground text-lg">
-              25 Eylül için biletini oluştur!
+              Create your ticket for September 25!
             </p>
           </div>
         </div>
@@ -124,12 +156,12 @@ export function TicketGenerator() {
             {/* Name Input */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">
-                İsim
+                Name
               </label>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="İsminizi girin"
+                placeholder="Enter your name"
                 className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground"
               />
             </div>
@@ -137,7 +169,7 @@ export function TicketGenerator() {
             {/* Profile Image Upload */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">
-                Profil Fotoğrafı (Opsiyonel)
+                Profile Photo (Optional)
               </label>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center overflow-hidden">
@@ -167,7 +199,7 @@ export function TicketGenerator() {
                   >
                     <span>
                       <Upload className="w-4 h-4 mr-2" />
-                      Yükle
+                      Upload
                     </span>
                   </Button>
                 </label>
@@ -182,7 +214,7 @@ export function TicketGenerator() {
               size="lg"
               className="w-full"
             >
-              {isGenerating ? "Oluşturuluyor..." : "Oluştur"}
+              {isGenerating ? "Generating..." : "Generate"}
             </Button>
           </div>
         </Card>

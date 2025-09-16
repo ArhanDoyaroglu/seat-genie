@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
 import QRCode from "qrcode";
-import anoLogo from "@/assets/ano-logo.png";
+import anoLogo from "@/assets/anomaLogo.png";
 
 interface TicketData {
   id: string;
@@ -27,7 +27,7 @@ export function Ticket({ data }: TicketProps) {
     if (qrCanvasRef.current) {
       QRCode.toCanvas(
         qrCanvasRef.current,
-        `ANO-TICKET-${data.id}`,
+        `https://x.com/anoma`,
         {
           width: 120,
           margin: 1,
@@ -52,10 +52,10 @@ export function Ticket({ data }: TicketProps) {
 
         <div className="flex">
           {/* Left Side - Dark Section */}
-          <div className="w-1/3 bg-gradient-hero p-8 flex flex-col items-center justify-center text-white">
+            <div className="w-1/3 bg-gradient-to-br from-slate-900 to-slate-800 p-8 flex flex-col items-center justify-center text-white">
             <img 
               src={anoLogo} 
-              alt="ANO Logo" 
+              alt="Xantothemoon Logo" 
               className="w-20 h-20 object-contain mb-4"
             />
           </div>
@@ -64,11 +64,11 @@ export function Ticket({ data }: TicketProps) {
           <div className="flex-1 p-8 relative">
             {/* Header */}
             <div className="mb-6">
-              <p className="text-sm text-muted-foreground uppercase tracking-wider mb-1">
-                LIVE ANO
-              </p>
+                <p className="text-sm text-muted-foreground uppercase tracking-wider mb-1">
+                  LIVE ANOMA
+                </p>
               <h1 className="text-4xl font-bold text-card-foreground mb-2">
-                ANO
+                XANTOTHEMOON
               </h1>
               <h2 className="text-4xl font-bold text-card-foreground">
                 {data.date.toUpperCase()}
@@ -117,7 +117,7 @@ export function Ticket({ data }: TicketProps) {
             {/* Right Side Info */}
             <div className="absolute top-16 right-8 text-right space-y-6">
               {/* Ticket ID */}
-              <div className="bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-sm">
+              <div className="bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-sm text-center">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                   TICKET ID
                 </p>
@@ -160,19 +160,9 @@ export function Ticket({ data }: TicketProps) {
               </div>
             </div>
 
-            {/* Perforated Line */}
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
-              <div className="border-t border-dashed border-muted/30"></div>
-            </div>
           </div>
         </div>
 
-        {/* Bottom Date */}
-        <div className="bg-muted/10 px-8 py-4 text-center border-t border-muted/30">
-          <p className="text-sm text-muted-foreground">
-            See you on {data.date}!
-          </p>
-        </div>
       </Card>
     </div>
   );
